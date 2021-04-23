@@ -34,6 +34,7 @@ config=configparser.ConfigParser()
 config.read('model.ini')
 model=config['DEFAULT']['model']
 modeldir=config['DEFAULT']['dir']
+port=config['DEFAULT']['port']
 tokenizer = AutoTokenizer.from_pretrained(model)
 model = AutoModelWithLMHead.from_pretrained(modeldir)
 from flask import Flask
@@ -76,4 +77,5 @@ class question(Resource):
 api.add_resource(question,'/question')
 
 if __name__=='__main__':
-    app.run()
+    print('running on localhost port {}'.format(port))
+    app.run(host="0.0.0.0", port=port)

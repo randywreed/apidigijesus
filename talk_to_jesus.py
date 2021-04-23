@@ -10,7 +10,7 @@ from typing import Dict, List, Tuple
 
 import numpy as np
 import torch
-
+import configparser
 
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampler
@@ -30,8 +30,12 @@ from transformers import (
     PreTrainedTokenizer,
     get_linear_schedule_with_warmup,
 )
-tokenizer = AutoTokenizer.from_pretrained('microsoft/DialoGPT-small')
-model = AutoModelWithLMHead.from_pretrained('/home/randy/Downloads/dialogpt2-small')
+config=configparser.ConfigParser()
+config.read('model.ini')
+model=config['DEFAULT']['model']
+modeldir=config['DEFAULT']['dir']
+tokenizer = AutoTokenizer.from_pretrained(model)
+model = AutoModelWithLMHead.from_pretrained(modeldir)
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 
